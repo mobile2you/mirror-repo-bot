@@ -16,7 +16,7 @@ for REPO_NAME in $SOURCE_REPOSITORIES; do
     fi
   else
     # Mirror only specific branches to the target workspace
-    for BRANCH in "${SPECIFIC_BRANCHES[@]}"; do
+    for BRANCH in $SPECIFIC_BRANCHES; do
       if ! git push --force "https://$TARGET_USERNAME:$TARGET_PASSWORD@$TARGET_WORKSPACE/$REPO_NAME.git" "$BRANCH"; then
         ERROR_MESSAGES+=("$REPO_NAME - Failed to mirror branch $BRANCH to the target workspace")
       fi

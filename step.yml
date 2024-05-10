@@ -1,0 +1,86 @@
+title: |-
+  Mirror Repositories Bot
+summary: |
+  Mirrors repositories from different source code workspaces.
+description: |
+  This bot fetches repositories from a specified source workspace and mirrors each of them to a repository with the same name in a target workspace. The bot supports any version control system, facilitating seamless synchronization between different environments.
+website: git@bitbucket.org:m2y/bitbucket-to-gitlab-repo-update-bitrise.git
+source_code_url: git@github.org:m2y/mirror-repo-bot.git
+support_url: git@github.org:m2y/mirror-repo-bot.git
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+type_tags:
+  - utility
+
+is_requires_admin_user: false
+is_always_run: false
+is_skippable: false
+run_if: ""
+
+deps:
+  brew:
+  - name: git
+  apt_get:
+  - name: git
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+inputs:
+  - SOURCE_WORKSPACE: ""
+    opts:
+      title: "Source Workspace"
+      summary: "Workspace from which the repositories will be fetched."
+      is_required: true
+  - SOURCE_USERNAME: ""
+    opts:
+      title: "Source Username"
+      summary: "Username with access to the source workspace."
+      is_required: true
+  - SOURCE_PASSWORD: ""
+    opts:
+      title: "Source Password"
+      summary: "App Password for the given user in the source workspace."
+      is_required: true
+  - SOURCE_REPOSITORIES: []
+    opts:
+      title: "Source Repositories List"
+      summary: "List of repository names from the source that will be mirrored in the destination."
+      is_required: true
+      type: "array"
+  - TARGET_WORKSPACE: ""
+    opts:
+      title: "Target Workspace"
+      summary: "Workspace in the destination with access to all target repositories."
+      is_required: true
+  - TARGET_USERNAME: ""
+    opts:
+      title: "Target Username"
+      summary: "Username with access to the target workspace."
+      is_required: true
+  - TARGET_PASSWORD: ""
+    opts:
+      title: "Target Password"
+      summary: "Token or password for the given user in the target workspace."
+      is_required: true
+  - FULL_MIRROR: true
+    opts:
+      title: "Full Repository Mirror"
+      summary: "Boolean flag to indicate whether to mirror the entire repository or only specific branches. Set true for full mirror, false for specific branches."
+      is_required: true
+      type: "boolean"
+  - SPECIFIC_BRANCHES: []
+    opts:
+      title: "Specific Branches to Mirror"
+      summary: "List of specific branches to be mirrored if full mirror is set to false. Only these branches will be mirrored."
+      is_required: false
+      type: "array"
+
+outputs:
+  - ERROR_MESSAGE_OUTPUT:
+    opts:
+      title: Error messages
+      description: "A string listing every error that ocourred during the build."
